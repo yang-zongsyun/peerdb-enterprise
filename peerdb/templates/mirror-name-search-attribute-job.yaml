@@ -47,9 +47,9 @@ spec:
             - name: TEMPORAL_NAMESPACE
               value: {{ .Values.temporal.namespace | quote }}
             - name: TEMPORAL_CLI_ADDRESS
-              value: "{{ .Release.Name }}-temporal-deploy-frontend:{{ $temporalValues.server.frontend.service.port }}"
+              value: "{{ .Release.Name }}-frontend:{{ $temporalValues.server.frontend.service.port }}"
             - name: TEMPORAL_ADDRESS
-              value: "{{ .Release.Name }}-temporal-deploy-frontend:{{ $temporalValues.server.frontend.service.port }}"
+              value: "{{ .Release.Name }}-frontend:{{ $temporalValues.server.frontend.service.port }}"
         {{- with .Values.temporal.deploy.mirrorNameSearchAttribute.resources }}
           resources:
           {{- toYaml . | nindent 12 }}

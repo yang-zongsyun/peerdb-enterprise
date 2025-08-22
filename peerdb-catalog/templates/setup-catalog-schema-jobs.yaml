@@ -57,7 +57,7 @@ spec:
           image: "{{ $temporalValues.admintools.image.repository }}:{{ $temporalValues.admintools.image.tag }}"
 
           imagePullPolicy: {{ $temporalValues.admintools.image.pullPolicy }}
-          command: ['bash', '-c', 'while ! timeout 1 nc -vz "${SQL_HOST}" "${SQL_PORT}"; do sleep 1; done && temporal-sql-tool setup-schema -v 0.0']
+          command: ['bash', '-c', 'while ! timeout 60 nc -vz "${SQL_HOST}" "${SQL_PORT}"; do sleep 5; done && temporal-sql-tool setup-schema -v 0.0']
           env:
             - name: SQL_PLUGIN
               value: "postgres12"

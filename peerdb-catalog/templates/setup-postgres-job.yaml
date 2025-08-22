@@ -57,16 +57,16 @@ spec:
       imagePullSecrets:
         {{- . | toYaml | nindent 10 }}
       {{- end }}
-      initContainers:
-        - name: go-build
-          image: "{{ .Values.schema.setup.pods.init.image.repository }}:{{ .Values.schema.setup.pods.init.image.tag }}"
-          imagePullPolicy: "IfNotPresent"
-          command: ['go', 'build', '-C', '/source', '-ldflags', '-s -w', '-o', '/build/run', 'main.go']
-          volumeMounts:
-            - mountPath: "/source"
-              name: "go-source-files"
-            - mountPath: "/build"
-              name: "go-build-files"
+      #initContainers:
+      #  - name: go-build
+      #    image: "{{ .Values.schema.setup.pods.init.image.repository }}:{{ .Values.schema.setup.pods.init.image.tag }}"
+      #    imagePullPolicy: "IfNotPresent"
+      #    command: ['go', 'build', '-C', '/source', '-ldflags', '-s -w', '-o', '/build/run', 'main.go']
+      #    volumeMounts:
+      #      - mountPath: "/source"
+      #        name: "go-source-files"
+      #      - mountPath: "/build"
+      #        name: "go-build-files"
       containers:
         - name: "temporal-schema-create"
           image: "{{ .Values.schema.setup.pods.schemaCreate.repository }}:{{ .Values.schema.setup.pods.schemaCreate.tag }}"
@@ -125,17 +125,17 @@ spec:
               value: "true"
             - name: TEMPORAL_DEPLOY_ENABLED
               value: {{ .Values.temporal.deploy.enabled | quote }}
-          volumeMounts:
-            - mountPath: "/build"
-              name: "go-build-files"
+          #volumeMounts:
+          #  - mountPath: "/build"
+          #    name: "go-build-files"
           {{- with .Values.schema.create.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      volumes:
-        - name: "go-source-files"
-          configMap:
-            name: {{ include "deploy.schema.create.config.name" . }}
-        - name: "go-build-files"
-          emptyDir: {}
+      #volumes:
+      #  - name: "go-source-files"
+      #    configMap:
+      #      name: {{ include "deploy.schema.create.config.name" . }}
+      #  - name: "go-build-files"
+      #    emptyDir: {}
 {{- end }}
